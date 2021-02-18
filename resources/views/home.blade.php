@@ -14,7 +14,24 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>UJIAN</th>
+                                <th>AKSI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($exams as $exam)
+                                <tr>
+                                    <td>{{ $loop->iteration}}</td>
+                                    <td>{{ $exam->title}}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

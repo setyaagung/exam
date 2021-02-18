@@ -23,9 +23,15 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
             with font-awesome or any other icon font library -->
+            <li class="nav-item">
+                <a href="{{ route('dashboard')}}" class="nav-link {{ (request()->segment(1) == 'dashboard') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
                 <li class="nav-item">
                     <a href="{{ route('group.index')}}" class="nav-link {{ (request()->segment(1) == 'group') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-home"></i>
+                        <i class="nav-icon fas fa-school"></i>
                         <p>Kelas</p>
                     </a>
                 </li>
@@ -39,6 +45,18 @@
                     <a href="{{ route('exam.index')}}" class="nav-link {{ (request()->segment(1) == 'exam') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-pen"></i>
                         <p>Ujian</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('student.index')}}" class="nav-link {{ (request()->segment(1) == 'student') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>Siswa</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('user.index')}}" class="nav-link {{ (request()->segment(1) == 'user') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Pengguna</p>
                     </a>
                 </li>
             </ul>

@@ -7,6 +7,7 @@ use App\Model\Exam;
 use App\Model\Group;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ExamController extends Controller
 {
@@ -19,7 +20,7 @@ class ExamController extends Controller
     {
         setlocale(LC_TIME, 'id_ID');
         Carbon::setLocale('id');
-        $exams = Exam::orderBy('created_at', 'DESC')->get();
+        $exams = Exam::orderBy('exam_date', 'DESC')->get();
         return view('backend.exam.index', compact('exams'));
     }
 
@@ -49,6 +50,7 @@ class ExamController extends Controller
             'group_id' => 'required',
         ]);
         $data = $request->all();
+        $data['slug'] = Str::slug($request->input('title'));
         $data['status'] = 1;
         Exam::create($data);
         return redirect()->route('exam.index')->with('create', 'Data ujian berhasil ditambahkan');
@@ -95,6 +97,7 @@ class ExamController extends Controller
             'group_id' => 'required',
         ]);
         $data = $request->all();
+        $data['slug'] = Str::slug($request->input('title'));
         $exam->update($data);
         return redirect()->route('exam.index')->with('update', 'Data ujian berhasil diperbarui');
     }
