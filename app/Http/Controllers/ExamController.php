@@ -152,4 +152,36 @@ class ExamController extends Controller
         ExamQuestion::create($data);
         return redirect()->back()->with('create', 'Pertanyaan baru berhasil dibuat. Silahkan tambah pertanyaan lagi');
     }
+
+    public function edit_question($slug, $id)
+    {
+        $exam = Exam::where('slug', $slug)->first();
+        $question = ExamQuestion::findOrFail($id);
+        $options = json_decode($question->option);
+        return view('backend.exam.edit_question', compact('exam', 'question', 'options'));
+    }
+
+    public function update_question(Request $request, $slug, $id)
+    {
+        $question = ExamQuestion::findOrFail($id);
+        $exam = Exam::where('slug', $slug)->first();
+        $data = $request->all();
+        $data['option'] = json_encode([
+            'option1' => $request->input('option1'),
+            'option2' => $request->input('option2'),
+            'option3' => $request->input('option3'),
+            'option4' => $request->input('option4'),
+        ]);
+        //dd($data);
+        $question->update($data);
+        return redirect()->back()->with('update', 'Pertanyaan berhasil diperbarui');
+    }
+
+    public function destroy_question($slug, $id)
+    {
+        $exam = Exam::where('slug', $slug)->first();
+        $question = ExamQuestion::findOrFail($id);
+        $question->delete();
+        return redirect()->back()->with('delete', 'Pertanyaan berhasil dihapus');
+    }
 }

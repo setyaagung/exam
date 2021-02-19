@@ -33,6 +33,9 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/exam/{slug}/question', 'ExamController@question')->name('question');
     Route::get('/exam/{slug}/question/create_question', 'ExamController@create_question')->name('create_question');
     Route::post('/exam/question/store_question', 'ExamController@store_question')->name('store_question');
+    Route::get('/exam/{slug}/question/{id}/edit_question', 'ExamController@edit_question')->name('edit_question');
+    Route::patch('/exam/{slug}/question/{id}', 'ExamController@update_question')->name('update_question');
+    Route::delete('/exam/{slug}/question/{id}', 'ExamController@destroy_question')->name('destroy_question');
     Route::resource('student', 'StudentController');
     Route::resource('user', 'UserController');
 });

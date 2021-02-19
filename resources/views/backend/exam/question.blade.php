@@ -23,14 +23,6 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            @if ($message = Session::get('update'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>Updated!</strong> {{$message}}.
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            @endif
                             @if ($message = Session::get('delete'))
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     <strong>Deleted!</strong> {{$message}}.
@@ -55,9 +47,11 @@
                                             <td>{!! $question->question !!}</td>
                                             <td>{{ $question->answer}}</td>
                                             <td>
-                                                <a href="" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
-                                                <form action="" class="d-inline">
-                                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Hapus</button>
+                                                <a href="{{ route('edit_question',[$exam->slug,$question->id])}}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                                                <form action="{{ route('destroy_question',[$exam->slug,$question->id])}}" class="d-inline" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus pertanyaan ini?')"><i class="fas fa-trash"></i> Hapus</button>
                                                 </form>
                                             </td>
                                         </tr>
