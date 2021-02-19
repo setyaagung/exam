@@ -19,6 +19,8 @@
                             <tr>
                                 <th>NO</th>
                                 <th>UJIAN</th>
+                                <th>TANGGAL UJIAN</th>
+                                <th>STATUS</th>
                                 <th>AKSI</th>
                             </tr>
                         </thead>
@@ -27,7 +29,19 @@
                                 <tr>
                                     <td>{{ $loop->iteration}}</td>
                                     <td>{{ $exam->title}}</td>
-                                    <td></td>
+                                    <td>{{ \Carbon\Carbon::parse($exam->exam_date)->isoFormat('DD MMMM Y')}}</td>
+                                    <td>
+                                        @if (strtotime($exam->exam_date) < strtotime(date('Y-m-d')))
+                                            <span class="badge badge-success">Selesai</span>
+                                        @elseif(strtotime($exam->exam_date) == strtotime(date('Y-m-d')))
+                                            <span class="badge badge-info">Running</span>
+                                        @else
+                                            <span class="badge badge-warning">Pending</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('join_exam')}}" class="btn btn-primary btn-sm">Join Exam</a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

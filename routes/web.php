@@ -15,11 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::middleware(['auth'])->group(function () {
     //siswa
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/join_exam', 'HomeController@join_exam')->name('join_exam');
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {
@@ -29,6 +30,9 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::resource('course', 'CourseController');
     Route::resource('exam', 'ExamController');
     Route::get('/update-status/{id}', 'ExamController@update_status');
+    Route::get('/exam/{slug}/question', 'ExamController@question')->name('question');
+    Route::get('/exam/{slug}/question/create_question', 'ExamController@create_question')->name('create_question');
+    Route::post('/exam/question/store_question', 'ExamController@store_question')->name('store_question');
     Route::resource('student', 'StudentController');
     Route::resource('user', 'UserController');
 });

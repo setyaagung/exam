@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Course;
 use App\Model\Exam;
+use App\Model\ExamQuestion;
 use App\Model\Group;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -123,5 +124,32 @@ class ExamController extends Controller
         }
         $exam->status = $status;
         $exam->update();
+    }
+
+    public function question($slug)
+    {
+        $exam = Exam::where('slug', $slug)->first();
+        $questions = ExamQuestion::where('exam_id', $exam->id)->get();
+        return view('backend.exam.question', compact('exam', 'questions'));
+    }
+
+    public function create_question($slug)
+    {
+        $exam = Exam::where('slug', $slug)->first();
+        return view('backend.exam.create_question', compact('exam'));
+    }
+
+    public function store_question(Request $request)
+    {
+        $data = $request->all();
+        $data['option'] = json_encode([
+            'option1' => $request->input('option1'),
+            'option2' => $request->input('option2'),
+            'option3' => $request->input('option3'),
+            'option4' => $request->input('option4'),
+        ]);
+        //dd($data);
+        ExamQuestion::create($data);
+        return redirect()->back()->with('create', 'Pertanyaan baru berhasil dibuat. Silahkan tambah pertanyaan lagi');
     }
 }

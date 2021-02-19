@@ -15,6 +15,8 @@
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
         <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+        <!-- summernote -->
+        <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css')}}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css')}}">
     </head>
@@ -38,6 +40,8 @@
         <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
         <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
         <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+        <!-- Summernote -->
+        <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js')}}"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset('assets/dist/js/adminlte.js')}}"></script>
         <script>
