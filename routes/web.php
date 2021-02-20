@@ -20,10 +20,11 @@ Auth::routes(['verify' => true]);
 Route::middleware(['auth'])->group(function () {
     //siswa
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/join_exam', 'HomeController@join_exam')->name('join_exam');
+    Route::get('/online-exam', 'SiteExamController@exam')->name('exam');
+    Route::get('/online-exam/join/{slug}', 'SiteExamController@join_exam')->name('join_exam');
 });
 
-Route::middleware(['auth', 'isAdmin'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     //admin
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('group', 'GroupController');
