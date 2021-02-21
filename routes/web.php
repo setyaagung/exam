@@ -21,7 +21,9 @@ Route::middleware(['auth'])->group(function () {
     //siswa
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/online-exam', 'SiteExamController@exam')->name('exam');
-    Route::get('/online-exam/join/{slug}', 'SiteExamController@join_exam')->name('join_exam');
+    Route::get('/online-exam/{slug}/join', 'SiteExamController@join_exam')->name('join_exam');
+    Route::post('/online-exam/join/submit_exam', 'SiteExamController@submit_exam')->name('submit_exam');
+    Route::get('/online-exam/{slug}/show_result/{id}', 'SiteExamController@show_result')->name('show_result');
 });
 
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
