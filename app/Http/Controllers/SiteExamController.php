@@ -51,15 +51,17 @@ class SiteExamController extends Controller
         $data['false_answer'] = $false_answer;
         $data['result_json'] = json_encode($result);
 
-        $final = Result::create($data);
-        dd($final);
-        //return redirect()->route('result.show');
+        Result::create($data);
+        //return response()->json($final);
+        return redirect()->route('exam')->with('success', 'Anda telah menyelesaikan ujian');
     }
 
     public function show_result($slug, $id)
     {
+        $student = Student::where('user_id', Auth::user()->id)->first();
         $exam = Exam::where('slug', $slug)->first();
-        $show_result = Result::where('id', $id)->where('exam_id', $exam->id)->get();
-        return view('frontend.exam.show_result', compact('show_result', 'exam'));
+        $question = ExamQuestion::where('exam_id', $exam->id)->get()->first();
+        $show_result = Result::where('id', $id)->where('exam_id', $exam->id)->get()->first();
+        return view('frontend.exam.show_result', compact('show_result', 'exam', 'student'));
     }
 }

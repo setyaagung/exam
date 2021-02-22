@@ -20,6 +20,7 @@ class CreateExamsTable extends Migration
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('group_id');
             $table->date('exam_date');
+            $table->string('duration');
             $table->string('status');
             $table->timestamps();
 

@@ -41,16 +41,23 @@
                                     </td>
                                     @php
                                         $result = App\Model\Result::where('exam_id', $exam->id)->where('user_id', Auth::user()->id)->get()->first();
+
                                     @endphp
                                     <td>
                                         @if ($result)
-                                            {{$result->true_answer.'/'.($result->true_answer+$result->false_answer)}}
+                                            {{ round($result->true_answer / ($result->true_answer+$result->false_answer) * 100)}}
                                         @endif
                                     </td>
                                     <td>
                                         @if(strtotime($exam->exam_date) == strtotime(date('Y-m-d')))
                                             @if (!$result)
-                                                <a href="{{ route('join_exam',$exam->slug)}}" class="btn btn-primary btn-sm">Join Exam</a>
+                                                <a href="{{ route('join_exam',$exam->slug)}}" class="btn btn-primary btn-sm">Mulai Ujian</a>
+                                            @else
+                                                <a href="{{ route('show_result',[$exam->slug,$result->id])}}" class="btn btn-success btn-sm">Lihat Nilai</a>
+                                            @endif
+                                        @elseif(strtotime($exam->exam_date) < strtotime(date('Y-m-d')))
+                                            @if ($result)
+                                            <a href="{{ route('show_result',[$exam->slug,$result->id])}}" class="btn btn-success btn-sm">Lihat Nilai</a>
                                             @endif
                                         @endif
                                     </td>

@@ -8,19 +8,17 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
+            <div class="card card-primary card-outline">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-4">
-                            <h5>Waktu : 120 Menit</h5>
+                            <h5><b>Waktu : 120 Menit</b></h5>
                         </div>
                         <div class="col-sm-4">
-                            <h5>Timer : <span class="js-timeout"></span></h5>
+                            <h5><b>Timer : <span class="js-timeout"></span></b></h5>
                         </div>
                         <div class="col-sm-4">
-                            <h5>Status : Sedang Berjalan</h5>
+                            <h5><b>Status : Sedang Berjalan</b></h5>
                         </div>
                     </div>
                 </div>
@@ -29,7 +27,7 @@
 
         <div class="col-md-8 mt-3">
             <div class="card card-primary card-outline">
-                <div class="card-header">Pertanyaan</div>
+                <div class="card-header"><b>{{ $exam->title}}</b></div>
 
                 <div class="card-body">
                     <form action="{{ route('submit_exam')}}" method="POST">
@@ -38,7 +36,7 @@
                         <div class="row">
                             @foreach ($questionExam as $key => $question)
                                 <div class="col-sm-12">
-                                    <label class="font-weight-bold">{{ $key+1}}.{!! $question->question !!}</label>
+                                    <label class="font-weight-bold">{!! $question->question !!}</label>
                                     @php
                                         $options = json_decode($question->option);
                                     @endphp
@@ -69,7 +67,7 @@
                             @endforeach
                             <div class="col-sm-12 mt-3">
                                 <input type="hidden" name="index" value="{{ $key+1}}">
-                                <button type="submit" class="btn btn-sm btn-primary btn-block">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-block" onclick="return confirm('Yakin ingin submit ujian kamu ?')">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -100,11 +98,15 @@
                     else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
                     $('.js-timeout').html(minutes + ' : ' + seconds);
 
-                    if (minutes == 0 && seconds == 0) { clearInterval(interval); alert('Waktu Habis'); }
-                    }, 1000);
+                    if (minutes == 0 && seconds == 0) {
+                        clearInterval(interval);
+                        alert('Waktu Habis');
+                        location.reload();
+                    }
+                }, 1000);
             }
 
-            $('.js-timeout').text("120:00");
+            $('.js-timeout').text("1"+{{ $exam->id}}+" : 00");
             countdown();
         });
     </script>
