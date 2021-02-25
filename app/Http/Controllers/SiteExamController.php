@@ -24,8 +24,15 @@ class SiteExamController extends Controller
     public function join_exam($slug)
     {
         $exam = Exam::where('slug', $slug)->first();
+        $maxQuestion = ExamQuestion::where('exam_id', $exam->id)->count();
         $questionExam = ExamQuestion::where('exam_id', $exam->id)->get();
-        return view('frontend.exam.join_exam', compact('questionExam', 'exam'));
+        //$ques = ExamQuestion::findOrFail($id);
+        return view('frontend.exam.join_exam', compact('questionExam', 'exam', 'maxQuestion'));
+    }
+
+    public function next()
+    {
+        return static::where($this->getKeyName(), '>', $this->getKeyName())->first();
     }
 
     public function submit_exam(Request $request)

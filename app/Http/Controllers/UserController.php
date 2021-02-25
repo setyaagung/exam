@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
+use App\Model\Role;
+use App\Model\Student;
+use App\Model\Teacher;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -25,7 +30,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all();
+        return view('backend.user.create', compact('roles'));
     }
 
     /**
@@ -34,9 +40,24 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $data = $request->all();
+        $data['password'] = Hash::make($request->input('password'));
+        $user = User::create($data);
+        if ($data['role_id'] == 2) {
+            Teacher::create([
+                'user_id' => $user->id,
+                'name' => $user->name,
+            ]);
+        }
+        if ($data['role_id'] == 3) {
+            Student::create([
+                'user_id' => $user->id,
+                'name' => $user->name
+            ]);
+        }
+        return redirect()->route('user.index')->with('create', 'Data user berhasil ditambahkan');
     }
 
     /**

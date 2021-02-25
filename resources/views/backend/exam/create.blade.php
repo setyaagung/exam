@@ -67,6 +67,15 @@
                                         </span>
                                     @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label for="">Durasi (menit)</label>
+                                    <input id="duration" type="text" class="form-control @error('duration') is-invalid @enderror" name="duration" value="{{ old('duration') }}" required autocomplete="title" placeholder="ex : 120">
+                                    @error('duration')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                                 <div class="float-right">
                                     <a href="{{ route('exam.index')}}" class="btn btn-secondary">Kembali</a>
                                     <button type="submit" class="btn btn-primary">Simpan</button>

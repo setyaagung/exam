@@ -26,8 +26,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/online-exam/{slug}/show_result/{id}', 'SiteExamController@show_result')->name('show_result');
 });
 
-Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
-    //admin
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    //admin & guru
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('group', 'GroupController');
     Route::resource('course', 'CourseController');
@@ -39,6 +39,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/exam/{slug}/question/{id}/edit_question', 'ExamController@edit_question')->name('edit_question');
     Route::patch('/exam/{slug}/question/{id}', 'ExamController@update_question')->name('update_question');
     Route::delete('/exam/{slug}/question/{id}', 'ExamController@destroy_question')->name('destroy_question');
+    Route::resource('teacher', 'TeacherController');
     Route::resource('student', 'StudentController');
     Route::resource('user', 'UserController');
 });

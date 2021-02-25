@@ -8,6 +8,7 @@ use App\Model\ExamQuestion;
 use App\Model\Group;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ExamController extends Controller
@@ -51,6 +52,7 @@ class ExamController extends Controller
             'group_id' => 'required',
         ]);
         $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
         $data['slug'] = Str::slug($request->input('title'));
         $data['status'] = 1;
         Exam::create($data);

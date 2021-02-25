@@ -31,7 +31,9 @@ class LoginController extends Controller
     public function redirectTo()
     {
         if (Auth::user()->role_id == 1) {
-            return 'admin/dashboard';
+            return 'dashboard';
+        } elseif (Auth::user()->role_id == 2) {
+            return 'dashboard';
         } else {
             return 'home';
         }

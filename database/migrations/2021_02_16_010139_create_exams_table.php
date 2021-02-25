@@ -17,6 +17,7 @@ class CreateExamsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('slug');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('course_id');
             $table->unsignedBigInteger('group_id');
             $table->date('exam_date');
@@ -24,6 +25,7 @@ class CreateExamsTable extends Migration
             $table->string('status');
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('restrict');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('restrict');
         });

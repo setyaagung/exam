@@ -15,6 +15,8 @@
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
         <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css')}}">
         <!-- summernote -->
         <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css')}}">
         <!-- Theme style -->
@@ -42,10 +44,14 @@
         <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
         <!-- Summernote -->
         <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js')}}"></script>
+        <!-- Select2 -->
+        <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset('assets/dist/js/adminlte.js')}}"></script>
         <script>
             $.widget.bridge('uibutton', $.ui.button);
+             //Initialize Select2 Elements
+            $('.select2').select2();
             $(function () {
                 $("#example1").DataTable({
                     "responsive": true,

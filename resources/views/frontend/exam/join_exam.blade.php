@@ -27,50 +27,55 @@
 
         <div class="col-md-8 mt-3">
             <div class="card card-primary card-outline">
-                <div class="card-header"><b>{{ $exam->title}}</b></div>
-
+                <div class="card-header">
+                    <b>{{ $exam->title}}</b>
+                </div>
                 <div class="card-body">
-                    <form action="{{ route('submit_exam')}}" method="POST">
-                        @csrf
-                        <input type="hidden" name="exam_id" value="{{ $exam->id}}">
-                        <div class="row">
-                            @foreach ($questionExam as $key => $question)
-                                <div class="col-sm-12">
-                                    <label class="font-weight-bold">{!! $question->question !!}</label>
-                                    @php
-                                        $options = json_decode($question->option);
-                                    @endphp
-                                    <input type="hidden" name="question{{ $key+1}}" value="{{ $question->id}}">
-                                    <div class="form-group ml-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option1}}">
-                                            <label class="form-check-label">{{ $options->option1}}</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option2}}">
-                                            <label class="form-check-label">{{ $options->option2}}</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option3}}">
-                                            <label class="form-check-label">{{ $options->option3}}</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option4}}">
-                                            <label class="form-check-label">{{ $options->option4}}</label>
-                                        </div>
-                                        <div class="form-check" style="display: none">
-                                            <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="0" checked>
-                                            <label class="form-check-label">{{ $options->option4}}</label>
+                    <div class="questions" id="question-div">
+                        <form action="{{ route('submit_exam')}}" method="POST" id="question-form">
+                            @csrf
+                            <input type="hidden" name="exam_id" value="{{ $exam->id}}">
+                            <div class="row">
+
+                                @foreach ($questionExam as $key => $question)
+                                    <div id="div-{{$key+1}}" class="col-sm-12 question {{ $key+1>1 ? 'hide':''}}">
+
+                                        <label class="font-weight-bold">{!! $question->question !!}</label>
+                                        @php
+                                            $options = json_decode($question->option);
+                                        @endphp
+                                        <input type="hidden" id="question{{ $key+1}}" name="question{{ $key+1}}" value="{{ $question->id}}">
+                                        <div class="form-group ml-3">
+                                            <div class="form-check" data-id="{{$key+1}}">
+                                                <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option1}}">
+                                                <label class="form-check-label">{{ $options->option1}}</label>
+                                            </div>
+                                            <div class="form-check" data-id="{{$key+1}}">
+                                                <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option2}}">
+                                                <label class="form-check-label">{{ $options->option2}}</label>
+                                            </div>
+                                            <div class="form-check" data-id="{{$key+1}}">
+                                                <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option3}}">
+                                                <label class="form-check-label">{{ $options->option3}}</label>
+                                            </div>
+                                            <div class="form-check" data-id="{{ $key+1}}">
+                                                <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option4}}">
+                                                <label class="form-check-label">{{ $options->option4}}</label>
+                                            </div>
                                         </div>
                                     </div>
+                                @endforeach
+                                <div class="col-sm-12 mt-3">
+                                    <input type="hidden" name="index" value="{{ $key+1}}">
+                                    <div class="float-right mb-2" style="margin-top: -15px">
+                                        <div class="btn btn-sm btn-secondary button hide" id="prev">Prev</div>
+                                        <div class="btn btn-sm btn-success button hide" id="next">Next</div>
+                                    </div>
+                                    <button id="submit" type="submit" class="btn btn-primary btn-block hide" onclick="return confirm('Yakin ingin submit ujian kamu ?')">Submit</button>
                                 </div>
-                            @endforeach
-                            <div class="col-sm-12 mt-3">
-                                <input type="hidden" name="index" value="{{ $key+1}}">
-                                <button type="submit" class="btn btn-primary btn-block" onclick="return confirm('Yakin ingin submit ujian kamu ?')">Submit</button>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,6 +84,11 @@
 @endsection
 
 @push('scripts')
+    <style>
+        .hide{
+            display: none;
+        }
+    </style>
     <script type="text/javascript">
         $(document).ready(function(){
             var interval;
@@ -106,8 +116,56 @@
                 }, 1000);
             }
 
-            $('.js-timeout').text("1"+{{ $exam->id}}+" : 00");
+            $('.js-timeout').text({{ $exam->duration}}+" : 00");
             countdown();
+
+            var maxq = {{ $maxQuestion}}
+            $('.form-check').click(function(e){
+                var id = parseInt($(this).data('id'));
+                if(id == 1) {
+                    $('.button').addClass('hide');
+                }
+                if(id != maxq){
+                    $('#next').removeClass('hide');
+                }
+                var next = (id+1);
+			    var prev = (id-1);
+			    $('#next').data('id',next);
+			    $('#prev').data('id',prev);
+            });
+
+            $('#next').click(function(e) {
+		    	var id = $(this).data('id');
+		    	$('.button').addClass('hide');
+		    	//$('#next').removeClass('hide');
+		    	if(id == maxq) {
+                    $('#submit,#prev').removeClass('hide');
+                }
+		    	else {
+                    $('.button').addClass('hide');
+                    $('#prev').removeClass('hide');
+                }
+		    	$('.question').addClass('hide');
+		    	$('#div-'+id).removeClass('hide');
+		    	var next = id+1;
+		    	var prev = id-1;
+		    	$('#next').data('id',next);
+		    	$('#prev').data('id',prev);
+		    });
+
+            $('#prev').click(function(e) {
+		    	var id = $(this).data('id');
+		    	$('#prev').removeClass('hide');
+		    	if(id==1){
+                    $('.button').addClass('hide');
+		    	    $('.question').addClass('hide');
+		    	    $('#div-'+id).removeClass('hide');
+                }
+		    	var next = id+1;
+		    	var prev = id-1;
+		    	$('#next').data('id',next);
+		    	$('#prev').data('id',prev);
+		    });
         });
     </script>
 @endpush
