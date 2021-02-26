@@ -6,6 +6,7 @@ use App\Model\Course;
 use App\Model\Group;
 use App\Model\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
@@ -60,10 +61,18 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
+        $teacherGroupIds = [];
+        $teacherCourseIds = [];
         $teacher = Teacher::findOrFail($id);
-        $groups = Group::all();
-        $courses = Course::all();
-        return view('backend.teacher.edit', compact('teacher', 'groups', 'courses'));
+        $groups = Group::orderBy('name', 'ASC')->get();
+        $courses = Course::orderBy('name', 'ASC')->get();
+        foreach ($teacher->groups as $teacherGroup) {
+            $teacherGroupIds[] = $teacherGroup->id;
+        }
+        foreach ($teacher->courses as $teacherCourse) {
+            $teacherCourseIds[] = $teacherCourse->id;
+        }
+        return view('backend.teacher.edit', compact('teacher', 'groups', 'courses', 'teacherGroupIds', 'teacherCourseIds'));
     }
 
     /**
@@ -77,10 +86,16 @@ class TeacherController extends Controller
     {
         $teacher = Teacher::findOrFail($id);
         $data = $request->all();
-        $data['group_id'] = implode(',', $request->input('group_id'));
-        $data['course_id'] = implode(',', $request->input('course_id'));
 
-        $teacher->update($data);
+        DB::transaction(function () use ($teacher, $data) {
+            $groupIds = !empty($data['group_id']) ? $data['group_id'] : [];
+            $courseIds = !empty($data['course_id']) ? $data['course_id'] : [];
+
+            //$teacher->update($data);
+            $teacher->groups()->attach($groupIds);
+            $teacher->courses()->attach($courseIds);
+            return true;
+        });
         return redirect()->route('teacher.index')->with('update', 'Data guru berhasil diperbarui');
     }
 

@@ -49,7 +49,6 @@
                                     <tr>
                                         <th>NO</th>
                                         <th>NAMA</th>
-                                        <th>KELAS YANG DIAJAR</th>
                                         <th>AKSI</th>
                                     </tr>
                                 </thead>
@@ -58,8 +57,8 @@
                                         <tr>
                                             <td>{{ $loop->iteration}}</td>
                                             <td>{{ $teacher->name}}</td>
-                                            <td></td>
                                             <td>
+                                                <a href="" class="btn btn-info btn-sm"><i class="fas fa-user"></i> Info Guru</a>
                                                 <a href="{{ route('teacher.edit',$teacher->id)}}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
                                                 <form action="{{ route('teacher.destroy', $teacher->id)}}" method="POST" class="d-inline">
                                                     @csrf
