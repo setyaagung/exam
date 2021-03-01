@@ -7,25 +7,39 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card card-primary card-outline">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-4">
-                            <h5><b>Waktu : 120 Menit</b></h5>
+                        <div class="col-sm-8">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td>Nama</td>
+                                    <td>:</td>
+                                    <td>{{ Auth::user()->name}}</td>
+                                    <td>Ujian</td>
+                                    <td>:</td>
+                                    <td>{{$exam->title}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Kelas</td>
+                                    <td>:</td>
+                                    <td>{{ $exam->group->name}}</td>
+                                    <td>Durasi</td>
+                                    <td>:</td>
+                                    <td>{{$exam->duration / 60}} Menit</td>
+                                </tr>
+                            </table>
                         </div>
                         <div class="col-sm-4">
-                            <h5><b>Timer : <span class="js-timeout"></span></b></h5>
-                        </div>
-                        <div class="col-sm-4">
-                            <h5><b>Status : Sedang Berjalan</b></h5>
+                            <h6 id="exam_timer" data-timer="{{ $exam->duration}}" style="max-width: 400px; width: 100%; height:100px"></h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-8 mt-3">
+        <div class="col-md-12 mt-3">
             <div class="card card-primary card-outline">
                 <div class="card-header">
                     <b>{{ $exam->title}}</b>
@@ -39,7 +53,6 @@
 
                                 @foreach ($questionExam as $key => $question)
                                     <div id="div-{{$key+1}}" class="col-sm-12 question {{ $key+1>1 ? 'hide':''}}">
-
                                         <label class="font-weight-bold">{!! $question->question !!}</label>
                                         @php
                                             $options = json_decode($question->option);
@@ -91,33 +104,6 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function(){
-            var interval;
-            function countdown() {
-                clearInterval(interval);
-                interval = setInterval( function() {
-                    var timer = $('.js-timeout').html();
-                    timer = timer.split(':');
-                    var minutes = timer[0];
-                    var seconds = timer[1];
-                    seconds -= 1;
-                    if (minutes < 0) return;
-                    else if (seconds < 0 && minutes != 0) {
-                        minutes -= 1;
-                        seconds = 59;
-                    }
-                    else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
-                    $('.js-timeout').html(minutes + ' : ' + seconds);
-
-                    if (minutes == 0 && seconds == 0) {
-                        clearInterval(interval);
-                        alert('Waktu Habis');
-                        location.reload();
-                    }
-                }, 1000);
-            }
-
-            $('.js-timeout').text({{ $exam->duration}}+" : 00");
-            countdown();
 
             var maxq = {{ $maxQuestion}}
             $('.form-check').click(function(e){
@@ -166,6 +152,22 @@
 		    	$('#next').data('id',next);
 		    	$('#prev').data('id',prev);
 		    });
+
+            $('#exam_timer').TimeCircles({
+                time: {
+                    Days: {
+                        show:false
+                    },
+                }
+            });
+
+            setInterval(function(){
+                var remaining_seconds = $('#exam_timer').TimeCircles().getTime();
+                if(remaining_seconds < 1){
+                    alert('Waktu Habis');
+                    location.reload();
+                }
+            },1000);
         });
     </script>
 @endpush

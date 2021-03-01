@@ -58,7 +58,13 @@
                                         <tr>
                                             <td>{{ $loop->iteration}}</td>
                                             <td>{{ $student->name}}</td>
-                                            <td>{{ $student->group->name}}</td>
+                                            <td>
+                                                @if ($student->group_id == '')
+
+                                                @else
+                                                    {{ $student->group->name}}
+                                                @endif
+                                            </td>
                                             <td>
                                                 <a href="{{ route('student.edit',$student->id)}}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
                                                 <form action="{{ route('student.destroy', $student->id)}}" method="POST" class="d-inline">

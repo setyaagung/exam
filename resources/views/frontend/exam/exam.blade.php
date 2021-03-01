@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
                     <h5 class="card-title m-0">Ujian</h5>
@@ -18,6 +18,8 @@
                             <tr>
                                 <th>NO</th>
                                 <th>UJIAN</th>
+                                <th>MATA PELAJARAN</th>
+                                <th>DIBUAT</th>
                                 <th>TANGGAL UJIAN</th>
                                 <th>STATUS</th>
                                 <th>NILAI</th>
@@ -29,6 +31,8 @@
                                 <tr>
                                     <td>{{ $loop->iteration}}</td>
                                     <td>{{ $exam->title}}</td>
+                                    <td>{{ $exam->course->name}}</td>
+                                    <td>{{ $exam->user->name}}</td>
                                     <td>{{ \Carbon\Carbon::parse($exam->exam_date)->isoFormat('DD MMMM Y')}}</td>
                                     <td>
                                         @if (strtotime($exam->exam_date) < strtotime(date('Y-m-d')))
@@ -51,7 +55,7 @@
                                     <td>
                                         @if(strtotime($exam->exam_date) == strtotime(date('Y-m-d')))
                                             @if (!$result)
-                                                <a href="{{ route('join_exam',$exam->slug)}}" class="btn btn-primary btn-sm">Mulai Ujian</a>
+                                                <a href="{{ route('confirm_data',$exam->slug)}}" class="btn btn-primary btn-sm">Mulai Ujian</a>
                                             @else
                                                 <a href="{{ route('show_result',[$exam->slug,$result->id])}}" class="btn btn-success btn-sm">Lihat Nilai</a>
                                             @endif

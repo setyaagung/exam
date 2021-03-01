@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="{{ asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/TimeCircles.css')}}">
     </head>
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
@@ -51,6 +52,7 @@
     <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('assets/dist/js/adminlte.min.js')}}"></script>
+    <script src="{{ asset('js/TimeCircles.js')}}"></script>
     <script>
         $(function () {
             $("#example1").DataTable({

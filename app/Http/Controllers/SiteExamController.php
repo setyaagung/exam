@@ -21,18 +21,21 @@ class SiteExamController extends Controller
         return view('frontend.exam.exam', compact('exams'));
     }
 
+    public function confirm_data($slug)
+    {
+        $student = Student::where('user_id', Auth::user()->id)->first();
+        $exam = Exam::orderBy('exam_date', 'DESC')->where('status', 1)->where('group_id', $student->group_id)->first();
+        $count_exam = ExamQuestion::where('exam_id', $exam->id)->count();
+        return view('frontend.exam.confirm_data', compact('exam', 'student', 'count_exam'));
+    }
+
     public function join_exam($slug)
     {
         $exam = Exam::where('slug', $slug)->first();
         $maxQuestion = ExamQuestion::where('exam_id', $exam->id)->count();
-        $questionExam = ExamQuestion::where('exam_id', $exam->id)->get();
+        $questionExam = ExamQuestion::orderByRaw('RAND()')->where('exam_id', $exam->id)->get();
         //$ques = ExamQuestion::findOrFail($id);
         return view('frontend.exam.join_exam', compact('questionExam', 'exam', 'maxQuestion'));
-    }
-
-    public function next()
-    {
-        return static::where($this->getKeyName(), '>', $this->getKeyName())->first();
     }
 
     public function submit_exam(Request $request)
