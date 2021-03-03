@@ -38,13 +38,18 @@
                                         <tr>
                                             <th>Tanggal Ujian</th>
                                             <td>:</td>
-                                            <td>{{ $exam->exam_date}}</td>
+                                            <td>{{ \Carbon\Carbon::parse($exam->exam_date)->isoFormat('DD MMMM Y')}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <h5 class="text-center"><b>HASIL {{ $exam->title}}</b></h5>
                                 <table class="table table-striped">
                                     <tbody>
+                                        <tr>
+                                            <th>Jumlah Soal</th>
+                                            <td>:</td>
+                                            <td>{{ \DB::table('exam_questions')->where('exam_id',$exam->id)->count()}}</td>
+                                        </tr>
                                         <tr>
                                             <th>Jawaban Benar</th>
                                             <td>:</td>

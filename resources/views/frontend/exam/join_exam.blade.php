@@ -58,7 +58,7 @@
                                             $options = json_decode($question->option);
                                         @endphp
                                         <input type="hidden" id="question{{ $key+1}}" name="question{{ $key+1}}" value="{{ $question->id}}">
-                                        <div class="form-group ml-3">
+                                        <div class="form-group ml-3" style="margin-top: -15px">
                                             <div class="form-check" data-id="{{$key+1}}">
                                                 <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option1}}">
                                                 <label class="form-check-label">{{ $options->option1}}</label>
@@ -77,12 +77,13 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 @endforeach
                                 <div class="col-sm-12 mt-3">
                                     <input type="hidden" name="index" value="{{ $key+1}}">
                                     <div class="float-right mb-2" style="margin-top: -15px">
-                                        <div class="btn btn-sm btn-secondary button hide" id="prev">Prev</div>
-                                        <div class="btn btn-sm btn-success button hide" id="next">Next</div>
+                                        <div class="btn btn-secondary button hide" id="prev">Prev</div>
+                                        <div class="btn btn-success button hide" id="next">Next</div>
                                     </div>
                                     <button id="submit" type="submit" class="btn btn-primary btn-block hide" onclick="return confirm('Yakin ingin submit ujian kamu ?')">Submit</button>
                                 </div>
@@ -161,13 +162,36 @@
                 }
             });
 
-            setInterval(function(){
+            interval = setInterval(function(){
                 var remaining_seconds = $('#exam_timer').TimeCircles().getTime();
-                if(remaining_seconds < 1){
-                    alert('Waktu Habis');
-                    location.reload();
+                if(remaining_seconds <= 0){
+                    clearInterval(interval);
+                    submit();
+                    window.location.href = '{{ route('exam')}}';
+                    //alert('Waktu ujian telah habis. Anda dapat melihat nilai anda sekarang')
                 }
             },1000);
+
+            function submit(){
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                var form = $('#question-form');
+                $.ajax({
+                    type: "POST",
+                    url: "/ujian/join/submit_exam",
+                    //dataType:"json",
+                    data: form.serialize(),
+                    success: function (response) {
+                        console.log(response);
+                        if (response.status) {
+                            window.location.href = '{{ route('exam')}}';
+                        }
+                    }
+                });
+            }
         });
     </script>
 @endpush

@@ -17,6 +17,7 @@
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css')}}">
         <link rel="stylesheet" href="{{ asset('css/TimeCircles.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/style.css')}}">
     </head>
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">

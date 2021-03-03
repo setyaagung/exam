@@ -12,10 +12,13 @@ use Illuminate\Support\Facades\Auth;
 
 class SiteExamController extends Controller
 {
-    public function exam()
+    public function __construct()
     {
         setlocale(LC_TIME, 'id_ID');
         Carbon::setLocale('id');
+    }
+    public function exam()
+    {
         $student = Student::where('user_id', Auth::user()->id)->first();
         $exams = Exam::orderBy('exam_date', 'DESC')->where('status', 1)->where('group_id', $student->group_id)->get();
         return view('frontend.exam.exam', compact('exams'));
@@ -62,7 +65,9 @@ class SiteExamController extends Controller
         $data['result_json'] = json_encode($result);
 
         Result::create($data);
-        //return response()->json($final);
+        //return response()->json([
+        //    'url' => \url('ujian')
+        //]);
         return redirect()->route('exam')->with('success', 'Anda telah menyelesaikan ujian');
     }
 

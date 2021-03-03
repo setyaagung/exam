@@ -22,7 +22,6 @@
                                 <th>DIBUAT</th>
                                 <th>TANGGAL UJIAN</th>
                                 <th>STATUS</th>
-                                <th>NILAI</th>
                                 <th>AKSI</th>
                             </tr>
                         </thead>
@@ -47,11 +46,6 @@
                                         $result = App\Model\Result::where('exam_id', $exam->id)->where('user_id', Auth::user()->id)->get()->first();
 
                                     @endphp
-                                    <td>
-                                        @if ($result)
-                                            {{ round($result->true_answer / ($result->true_answer+$result->false_answer) * 100)}}
-                                        @endif
-                                    </td>
                                     <td>
                                         @if(strtotime($exam->exam_date) == strtotime(date('Y-m-d')))
                                             @if (!$result)
