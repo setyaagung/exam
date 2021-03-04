@@ -28,6 +28,20 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <select name="group_id" id="group_id" class="form-control @error('email') is-invalid @enderror" required>
+                                <option value="">-- Pilih Kelas --</option>
+                                @foreach ($groups as $group)
+                                    <option value="{{ $group->id}}">{{ $group->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('group_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
                         <div class="input-group mb-3">
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Email">
                             <div class="input-group-append">

@@ -72,7 +72,8 @@ class RegisterController extends Controller
         ]);
         Student::create([
             'user_id' => $user->id,
-            'name' => $user->name
+            'name' => $data['name'],
+            'group_id' => $data['group_id']
         ]);
         return $user;
     }

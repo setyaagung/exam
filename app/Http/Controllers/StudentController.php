@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Group;
 use App\Model\Student;
 use Illuminate\Http\Request;
 
@@ -58,7 +59,9 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $groups = Group::orderBy('name', 'ASC')->get();
+        return view('backend.student.edit', compact('student', 'groups'));
     }
 
     /**
@@ -70,7 +73,10 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $data = $request->all();
+        $student->update($data);
+        return redirect()->route('student.index')->with('update', 'Data siswa berhasil diperbarui');
     }
 
     /**

@@ -18,6 +18,7 @@ class CreateStudentsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->unsignedBigInteger('group_id')->nullable();
+            $table->text('address')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -11,12 +11,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('exam') }}">Ujian</a>
-                </li>
+                @guest
+
+                @else
+                    @if (Auth::user()->role_id == 3)
+                        <li class="nav-item">
+                            <a class="nav-link {{ (request()->segment(1) == 'home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (request()->segment(1) == 'ujian') ? 'active' : '' }}" href="{{ route('ujian') }}">Ujian</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (request()->segment(1) == 'biodata') ? 'active' : '' }}" href="{{ route('biodata') }}">Biodata</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">Home</a>
+                        </li>
+                    @endif
+                @endguest
             </ul>
 
             <!-- Right Side Of Navbar -->

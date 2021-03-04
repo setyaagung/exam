@@ -68,7 +68,7 @@
                                     </tbody>
                                 </table>
                                 <div class="float-right">
-                                    <a href="{{ route('exam')}}" class="btn btn-secondary">Kembali</a>
+                                    <a href="{{ route('ujian')}}" class="btn btn-secondary">Kembali</a>
                                 </div>
                             </div>
                         </div>

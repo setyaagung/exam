@@ -68,7 +68,7 @@ class SiteExamController extends Controller
         //return response()->json([
         //    'url' => \url('ujian')
         //]);
-        return redirect()->route('exam')->with('success', 'Anda telah menyelesaikan ujian');
+        return redirect()->route('ujian')->with('success', 'Anda telah menyelesaikan ujian');
     }
 
     public function show_result($slug, $id)

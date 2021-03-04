@@ -167,8 +167,8 @@
                 if(remaining_seconds <= 0){
                     clearInterval(interval);
                     submit();
-                    window.location.href = '{{ route('exam')}}';
-                    //alert('Waktu ujian telah habis. Anda dapat melihat nilai anda sekarang')
+                    alert('Waktu ujian telah habis');
+                    window.location.href = '{{ route('ujian')}}';
                 }
             },1000);
 
@@ -187,7 +187,7 @@
                     success: function (response) {
                         console.log(response);
                         if (response.status) {
-                            window.location.href = '{{ route('exam')}}';
+                            window.location.href = '{{ route('ujian')}}';
                         }
                     }
                 });
