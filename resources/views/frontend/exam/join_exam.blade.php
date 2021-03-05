@@ -38,8 +38,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-12 mt-3">
+        <div class="col-md-9 mt-3">
             <div class="card card-primary card-outline">
                 <div class="card-header">
                     <b>{{ $exam->title}}</b>
@@ -77,7 +76,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @php
+                                        $result = App\Model\Result::where('exam_id', $exam->id)->where('user_id', Auth::user()->id)->get()->first();
 
+                                    @endphp
                                 @endforeach
                                 <div class="col-sm-12 mt-3">
                                     <input type="hidden" name="index" value="{{ $key+1}}">
@@ -93,6 +95,17 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3 mt-3">
+            <div class="card card-primary card-outline">
+                <div class="card-body">
+                    @foreach ($questionExam as $key => $question)
+                        <div class="btn-group mb-1">
+                            <button type="button" class="btn btn-success question_navigation" value="{{ $question->id}}">{{ $key+1}}</button>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -105,7 +118,6 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function(){
-
             var maxq = {{ $maxQuestion}}
             $('.form-check').click(function(e){
                 var id = parseInt($(this).data('id'));
@@ -168,7 +180,7 @@
                     clearInterval(interval);
                     submit();
                     alert('Waktu ujian telah habis');
-                    window.location.href = '{{ route('ujian')}}';
+                    window.location.href = '{{ route('show_result',$exam->slug)}}';
                 }
             },1000);
 
@@ -187,7 +199,7 @@
                     success: function (response) {
                         console.log(response);
                         if (response.status) {
-                            window.location.href = '{{ route('ujian')}}';
+                            window.location.href = '{{ route('show_result',$exam->slug)}}';
                         }
                     }
                 });

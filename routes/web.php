@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ujian/{slug}/konfirmasi-data', 'SiteExamController@confirm_data')->name('confirm_data');
     Route::get('/ujian/{slug}/join', 'SiteExamController@join_exam')->name('join_exam');
     Route::post('/ujian/join/submit_exam', 'SiteExamController@submit_exam')->name('submit_exam');
-    Route::get('/ujian{slug}/show_result/{id}', 'SiteExamController@show_result')->name('show_result');
+    Route::get('/ujian/{slug}/show_result', 'SiteExamController@show_result')->name('show_result');
     Route::get('/biodata', 'BiodataController@index')->name('biodata');
     Route::patch('/biodata/update', 'BiodataController@update')->name('biodata.update');
 });

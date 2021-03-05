@@ -51,7 +51,7 @@
                                             @if (!$result)
                                                 <a href="{{ route('confirm_data',$exam->slug)}}" class="btn btn-primary btn-sm">Mulai Ujian</a>
                                             @else
-                                                <a href="{{ route('show_result',[$exam->slug,$result->id])}}" class="btn btn-success btn-sm">Lihat Nilai</a>
+                                                <a href="{{ route('show_result',$exam->slug)}}" class="btn btn-success btn-sm">Lihat Nilai</a>
                                             @endif
                                         @elseif(strtotime($exam->exam_date) < strtotime(date('Y-m-d')))
                                             @if ($result)

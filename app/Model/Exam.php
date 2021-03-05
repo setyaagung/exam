@@ -23,4 +23,9 @@ class Exam extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getRouteKey()
+    {
+        return $this->slug;
+    }
 }
