@@ -73,6 +73,7 @@
                                             </td>
                                             <td>
                                                 <a href="{{ route('question',$exam->slug)}}" class="btn btn-sm btn-primary"><i class="fas fa-book"></i> Lihat Soal</a>
+                                                <a href="{{ route('exam.show',$exam->id)}}" class="btn btn-sm btn-success"><i class="fas fa-file-alt"></i> Hasil Ujian</a>
                                                 <a href="{{ route('exam.edit',$exam->id)}}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
                                                 <form action="{{ route('exam.destroy', $exam->id)}}" method="POST" class="d-inline">
                                                     @csrf

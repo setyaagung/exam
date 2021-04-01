@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Group;
 use App\Model\Student;
+use App\User;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -74,8 +75,12 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
         $student = Student::findOrFail($id);
+        $user = User::where('id', $student->user_id)->get()->first();
         $data = $request->all();
         $student->update($data);
+        $user->update([
+            'name' => $data['name']
+        ]);
         return redirect()->route('student.index')->with('update', 'Data siswa berhasil diperbarui');
     }
 

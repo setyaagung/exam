@@ -58,21 +58,29 @@
                                         @endphp
                                         <input type="hidden" id="question{{ $key+1}}" name="question{{ $key+1}}" value="{{ $question->id}}">
                                         <div class="form-group ml-3" style="margin-top: -15px">
-                                            <div class="form-check" data-id="{{$key+1}}">
-                                                <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option1}}">
-                                                <label class="form-check-label">{{ $options->option1}}</label>
+                                            <div class="form-check">
+                                                <label class="form-check-label" data-id="{{$key+1}}">
+                                                    <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option1}}">
+                                                    {{ $options->option1}}
+                                                </label>
                                             </div>
-                                            <div class="form-check" data-id="{{$key+1}}">
-                                                <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option2}}">
-                                                <label class="form-check-label">{{ $options->option2}}</label>
+                                            <div class="form-check">
+                                                <label class="form-check-label" data-id="{{$key+1}}">
+                                                    <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option2}}">
+                                                    {{ $options->option2}}
+                                                </label>
                                             </div>
-                                            <div class="form-check" data-id="{{$key+1}}">
-                                                <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option3}}">
-                                                <label class="form-check-label">{{ $options->option3}}</label>
+                                            <div class="form-check">
+                                                <label class="form-check-label" data-id="{{$key+1}}">
+                                                    <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option3}}">
+                                                    {{ $options->option3}}
+                                                </label>
                                             </div>
-                                            <div class="form-check" data-id="{{ $key+1}}">
-                                                <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option4}}">
-                                                <label class="form-check-label">{{ $options->option4}}</label>
+                                            <div class="form-check">
+                                                <label class="form-check-label" data-id="{{$key+1}}">
+                                                    <input class="form-check-input" type="radio" name="answer{{ $key+1}}" value="{{ $options->option4}}">
+                                                    {{ $options->option4}}
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -83,10 +91,8 @@
                                 @endforeach
                                 <div class="col-sm-12 mt-3">
                                     <input type="hidden" name="index" value="{{ $key+1}}">
-                                    <div class="float-right mb-2" style="margin-top: -15px">
-                                        <div class="btn btn-secondary button hide" id="prev">Prev</div>
-                                        <div class="btn btn-success button hide" id="next">Next</div>
-                                    </div>
+                                    <div class="float-left mb-2 btn btn-secondary button hide" id="prev" style="margin-top: -15px">Prev</div>
+                                    <div class="float-right mb-2 btn btn-success button hide" id="next" style="margin-top: -15px">Next</div>
                                     <button id="submit" type="submit" class="btn btn-primary btn-block hide" onclick="return confirm('Yakin ingin submit ujian kamu ?')">Submit</button>
                                 </div>
                             </div>
@@ -119,7 +125,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
             var maxq = {{ $maxQuestion}}
-            $('.form-check').click(function(e){
+            $('.form-check-label').click(function(e){
                 var id = parseInt($(this).data('id'));
                 if(id == 1) {
                     $('.button').addClass('hide');

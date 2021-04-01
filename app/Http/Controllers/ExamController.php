@@ -6,6 +6,7 @@ use App\Model\Course;
 use App\Model\Exam;
 use App\Model\ExamQuestion;
 use App\Model\Group;
+use App\Model\Result;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,7 +68,9 @@ class ExamController extends Controller
      */
     public function show($id)
     {
-        //
+        $exam = Exam::findOrFail($id);
+        $results = Result::where('exam_id', $exam->id)->get();
+        return view('backend.exam.show', compact('exam', 'results'));
     }
 
     /**
