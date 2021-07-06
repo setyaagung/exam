@@ -20,7 +20,11 @@ class SiteExamController extends Controller
     public function exam()
     {
         $student = Student::where('user_id', Auth::user()->id)->first();
-        $exams = Exam::orderBy('exam_date', 'DESC')->where('status', 1)->where('group_id', $student->group_id)->get();
+        if (Auth::user()->id == 1) {
+            $exams = Exam::orderBy('exam_date', 'DESC')->get();
+        } else {
+            $exams = Exam::orderBy('exam_date', 'DESC')->where('status', 1)->where('group_id', $student->group_id)->get();
+        }
         return view('frontend.exam.exam', compact('exams'));
     }
 

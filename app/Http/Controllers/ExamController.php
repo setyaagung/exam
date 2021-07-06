@@ -7,6 +7,7 @@ use App\Model\Exam;
 use App\Model\ExamQuestion;
 use App\Model\Group;
 use App\Model\Result;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,8 @@ class ExamController extends Controller
     {
         setlocale(LC_TIME, 'id_ID');
         Carbon::setLocale('id');
-        $exams = Exam::orderBy('exam_date', 'DESC')->get();
+        $user = User::where('id', Auth::user()->id)->first();
+        $exams = Exam::orderBy('exam_date', 'DESC')->where('user_id', $user->id)->get();
         return view('backend.exam.index', compact('exams'));
     }
 
